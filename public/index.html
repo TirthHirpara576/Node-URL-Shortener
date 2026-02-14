@@ -1,0 +1,95 @@
+<!-- Lec-33 :- URL shotener project with HTML, CSS and NodeJS -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>URL Shortener</h1>
+            <form id="shorten-form" >
+               <div>
+                    <label for="url">Enter URL:</label>
+                    <input type="url" id="url" name="url" required> <br/><br/>
+
+                    <label for="shortCode">Enter shortCode:</label>
+                    <input type="text" id="shortCode" name="shortCode" required> <br/><br/>
+                    <button type="submit">Shorten</button> <br/><br/>
+               </div>
+            </form>
+            <h2>Shortened URLs</h2>
+            <ul id="shortened-urls"></ul>
+        </div>
+    </body>
+
+
+    <script>
+// Lec-36 :- How to get all URL's from backend & display in frontend , also when we hit the shortCode in URL then it should redirect to original URL
+        // 2] whenever anyone hits this home page(index.html), we have to fetch all the shortened URLs from backend and display it in frontend
+        // before fetching the data from backend & displaying in frontend, we have to create a backend API in app.js file which will return all the shortened URLs stored in "data -> links.json" file
+        const fetchShortenedURLs = async () => {
+            try{
+                const response = await fetch('/links');
+                const links = await response.json();
+                console.log("Fetched links:", links);
+
+                const list = document.getElementById('shortened-urls');
+                list.innerHTML = ''; // Clear the list before adding new items
+                for(const [shortCode, url] of Object.entries(links)) { // Object.entries() -> This method returns an array of a given object's own enumerable string-keyed property [key, value] pairs.
+                    const listItem = document.createElement('li');
+                    const truncatedURL = url.length > 35 ? url.substring(0, 35) + '...' : url; // Truncate long URLs for better display
+                    listItem.innerHTML = `<a href="/${shortCode}" target="_blank">${window.location.origin}/${shortCode}</a> - ${truncatedURL}`;
+                    list.appendChild(listItem);
+                }
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+        // Call the function to fetch and display shortened URLs when the page loads
+        window.onload = fetchShortenedURLs;
+
+        // ✅ Submit handler for the form to shorten URLs
+        const form = document.getElementById('shorten-form').addEventListener('submit',async (event) => {
+
+            event.preventDefault(); // Prevent form from submitting byDefault
+            const formData = new FormData(event.target); // Create a FormData object from the form
+            // console.log(formData);
+            // console.log(formData.get('url')); // get() -> Get the value of the 'url' name field
+            // console.log(formData.get('shortCode')); // get() -> Get the value of the 'shortCode' name field
+            const url = formData.get('url');
+            const shortCode = formData.get('shortCode');
+            console.log(url, shortCode);
+
+// Lec-35 :- How to store all URL's & its shortCode in "data -> links.json" in NodeJS
+
+            // In this way, we can call backend API "/shorten" in frontend.
+            // Now, whenever I hit this perticuler url -> "/shorten" , we have to pass Frontend_data to backend (app.js)
+            try{
+                // in this way, we are passing data to backend (app.js)
+                const response = await fetch('/shorten',{
+                    method : 'POST',
+                    headers : {"Content-Type" : "application/json"},
+                    body : JSON.stringify({url,shortCode})
+                });
+                if(response.ok){
+                    alert("Form submitted successfuly!");
+                    fetchShortenedURLs(); // 1] whenever we submit the form, we will fetch the updated list of shortened URLs and display it in frontend
+                    event.target.reset(); // Reset the form after successful submission
+                }
+                else{
+                    const errMsg = await response.text();
+                    alert(errMsg);
+                }
+            }
+            catch(err){
+                console.log(err);
+            }
+        });
+        
+    </script>
+</html>
