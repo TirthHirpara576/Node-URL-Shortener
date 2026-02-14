@@ -16,8 +16,4 @@ This project demonstrates how to:
 ✅ Redirect /shortcode → original URL
 
 🛠️ Tech Stack :-
-Node.js (HTTP Module)
-HTML5
-CSS3
-JavaScript
-File System (fs/promises)
+Node.js (HTTP Module), HTML5, CSS3, JavaScript, File System (fs/promises)
