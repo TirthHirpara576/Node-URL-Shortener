@@ -28,7 +28,7 @@ const saveLinks = async (links) => { // this function will save the updated link
     await writeFile(path.join("data", 'links.json'), JSON.stringify(links)); // we will write the updated links object to the links.json file in the data folder by converting JSON formate.
 }
 
-// we will create a server using the createServer method of the http module and we will pass a callback function to it which will be executed every time a request is made to the server. The callback function takes two parameters, req (request) and res (response). The req parameter contains information about the incoming request and the res parameter is used to send a response back to the client.
+// we will create a server using the createServer method of the http module and we will pass a callback function to it which will be executed every time a request is made to the server. The callback function takes two parameters, req (request) and res (response). The 'req' parameter contains information about the incoming request and the 'res' parameter is used to send a response back to the client.
 const server = createServer(async (req, res) => {
 
     // console.log(req.url); // we will log the request method and the request URL in the console for debugging purposes
@@ -47,15 +47,15 @@ const server = createServer(async (req, res) => {
             }
         }
         // ✅ Serve CSS file in NodeJS
-        else if(req.url === '/style.css') { // for style.css file we will check if the user is hits the /style.css URL
-            try{ // jo data male to... 
+        else if(req.url === '/style.css') { // if the user is hits the /style.css URL
+            try{ 
                 const data = await readFile(path.join("public", 'style.css'), 'utf-8'); 
                 res.writeHead(200, {'Content-Type': 'text/css'}); 
                 res.end(data); 
             }
             catch(err) {
-                res.writeHead(404, {'Content-Type': 'text/html'}); // if any error occurs then we will send 404 status code with content type as text/html
-                res.end('<h1>404 Page Not Found</h1>'); // and we will end the response by sending a simple HTML message saying "404 Page Not Found"
+                res.writeHead(404, {'Content-Type': 'text/html'});
+                res.end('<h1>404 Page Not Found</h1>');
             }
         }
 

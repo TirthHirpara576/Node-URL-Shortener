@@ -1,0 +1,22 @@
+{
+  "name": "url_shortener_project",
+  "version": "1.0.0",
+  "description": "📌 Node URL Shortener :-\r A simple URL Shortener Web Application built using Node.js (without Express), HTML, CSS, and JavaScript.\r This project demonstrates how to:\r  - Serve static files using Node.js HTTP module\r  - Handle GET & POST requests manually\r  - Store data in a JSON file\r  - Create custom shortcodes\r  - Redirect short URLs to original URLs\r  - Fetch and display stored links in frontend",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node --watch app.js",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TirthHirpara576/Node-URL-Shortener.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/TirthHirpara576/Node-URL-Shortener/issues"
+  },
+  "homepage": "https://github.com/TirthHirpara576/Node-URL-Shortener#readme"
+}
